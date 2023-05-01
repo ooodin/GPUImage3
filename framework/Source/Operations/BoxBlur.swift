@@ -23,8 +23,7 @@ public class BoxBlur: BasicOperation {
         super.init(fragmentFunctionName:"passthroughFragment")
         
         self.useMetalPerformanceShaders = true
-        
-        ({blurRadiusInPixels = 2.0})()
+        self.blurRadiusInPixels = 2.0
         
         if #available(iOS 9, macOS 10.13, *) {
             self.metalPerformanceShaderPathway = usingMPSImageBox
