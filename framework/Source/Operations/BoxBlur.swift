@@ -26,13 +26,16 @@ public class BoxBlur: BasicOperation {
         self.blurRadiusInPixels = 2.0
         
         if #available(iOS 9, macOS 10.13, *) {
-            self.metalPerformanceShaderPathway = usingMPSImageBox
+            self.metalPerformanceShaderPathway = { [weak self] (commandBuffer, inputTextures, outputTexture) in
+                self?.usingMPSImageBox(commandBuffer: commandBuffer, inputTextures: inputTextures, outputTexture: outputTexture)
+            }
         } else {
             fatalError("Box blur not yet implemented on pre-MPS OS versions")
         }
     }
     
-    @available(iOS 9, macOS 10.13, *) func usingMPSImageBox(commandBuffer:MTLCommandBuffer, inputTextures:[UInt:Texture], outputTexture:Texture) {
+    @available(iOS 9, macOS 10.13, *)
+    func usingMPSImageBox(commandBuffer:MTLCommandBuffer, inputTextures:[UInt:Texture], outputTexture:Texture) {
         (internalMPSImageBox as? MPSImageBox)?.encode(commandBuffer:commandBuffer, sourceTexture:inputTextures[0]!.texture, destinationTexture:outputTexture.texture)
     }
     
