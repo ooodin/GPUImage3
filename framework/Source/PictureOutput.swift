@@ -130,6 +130,10 @@ public extension PlatformImageType {
         }
         pipeline(picture, pictureOutput)
         picture.processImage(synchronously:true)
+        
+        picture.targets.removeAll()
+        picture.removeAllTargets()
+        
         return outputImage!
     }
 }
